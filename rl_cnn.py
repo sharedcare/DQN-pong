@@ -55,4 +55,11 @@ class PongConvNet(object):
         layer_conv1 = self.create_convolution_layer(input=input_x,
                                                     conv_size=16,
                                                     num_channels=self.num_channels)
+        layer_conv2 = self.create_convolution_layer(input=layer_conv1,
+                                                    conv_size=32,
+                                                    num_channels=self.num_channels)
+        layer_conv3 = self.create_convolution_layer(input=layer_conv2,
+                                                    conv_size=32,
+                                                    num_channels=self.num_channels)
+        layer_flat = self.create_flatten_layer(layer_conv3)
 
