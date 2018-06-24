@@ -53,13 +53,22 @@ class PongConvNet(object):
 
         input_x = tf.placeholder(tf.float32, [None, self.input_width, self.input_height, self.num_frames])
         layer_conv1 = self.create_convolution_layer(input=input_x,
-                                                    conv_size=16,
+                                                    conv_size=32,
                                                     num_channels=self.num_channels)
         layer_conv2 = self.create_convolution_layer(input=layer_conv1,
-                                                    conv_size=32,
+                                                    conv_size=64,
                                                     num_channels=self.num_channels)
         layer_conv3 = self.create_convolution_layer(input=layer_conv2,
-                                                    conv_size=32,
+                                                    conv_size=64,
                                                     num_channels=self.num_channels)
         layer_flat = self.create_flatten_layer(layer_conv3)
+
+        layer_fc1 = self.create_fc_layer(layer_flat,
+                                         num_inputs=layer_flat.get_shape()[1:4].num_elements(),
+                                         num_outputs=512)
+        layer = tf.nn.relu(layer_fc1)
+
+        layer_fc2 = self.create_fc_layer(layer,
+                                         num_inputs=512,
+                                         num_outputs=3)
 
