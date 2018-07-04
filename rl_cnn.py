@@ -71,4 +71,5 @@ class PongConvNet(object):
         layer_fc2 = self.create_fc_layer(layer,
                                          num_inputs=512,
                                          num_outputs=3)
+        return input_x, layer_fc2
 
