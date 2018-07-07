@@ -73,3 +73,10 @@ class PongConvNet(object):
                                          num_outputs=3)
         return input_x, layer_fc2
 
+    def predict(self, input_layer, y_true):
+        cross_entropy = tf.nn.softmax_cross_entropy_with_logits(logits=input_layer,
+                                                                labels=y_true)
+        cost = tf.reduce_mean(cross_entropy)
+
+        return cost
+
