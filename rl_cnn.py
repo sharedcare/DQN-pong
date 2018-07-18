@@ -80,3 +80,10 @@ class PongConvNet(object):
 
         return cost
 
+    def optimize(self, cost):
+        optimizer = tf.train.AdamOptimizer(learning_rate=1e-4).minimize(cost)
+
+        batch_size = 16
+
+        x_batch, y_true_batch, _, cls_batch = data.train.next_batch(batch_size)
+
