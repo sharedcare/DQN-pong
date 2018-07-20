@@ -11,6 +11,8 @@ class PongConvNet(object):
         self.input_width = image_size[0]
         self.input_height = image_size[1]
         self.num_channels = num_channels
+        self.a = tf.placeholder("float", [None, self.num_channels])
+        self.y = tf.placeholder("float", [None])
 
     def create_weights(self, shape, stddev=0.05):
         return tf.Variable(tf.truncated_normal(shape, stddev=stddev))
@@ -86,4 +88,13 @@ class PongConvNet(object):
         batch_size = 16
 
         x_batch, y_true_batch, _, cls_batch = data.train.next_batch(batch_size)
+
+    def train(self, value, action, state):
+        feed_dict_train = {
+            self.y: value,
+            self.a: action,
+            self.input: state
+        }
+
+        self.sess.run(feed_dict = feed_dict_train)
 
