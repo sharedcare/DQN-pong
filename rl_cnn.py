@@ -73,7 +73,8 @@ class PongConvNet(object):
         layer_fc2 = self.create_fc_layer(layer,
                                          num_inputs=512,
                                          num_outputs=3)
-        return input_x, layer_fc2
+        self.input = input_x
+        self.out_layer = layer_fc2
 
     def predict(self, input_layer, y_true):
         cross_entropy = tf.nn.softmax_cross_entropy_with_logits(logits=input_layer,
@@ -82,19 +83,16 @@ class PongConvNet(object):
 
         return cost
 
-    def optimize(self, cost):
+    def train(self, value, action, state, cost):
         optimizer = tf.train.AdamOptimizer(learning_rate=1e-4).minimize(cost)
 
         batch_size = 16
 
-        x_batch, y_true_batch, _, cls_batch = data.train.next_batch(batch_size)
-
-    def train(self, value, action, state):
         feed_dict_train = {
             self.y: value,
             self.a: action,
             self.input: state
         }
 
-        self.sess.run(feed_dict = feed_dict_train)
+        self.sess.run(optimizer, feed_dict = feed_dict_train)
 
